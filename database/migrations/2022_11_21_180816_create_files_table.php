@@ -17,6 +17,7 @@ return new class extends Migration
             $table->comment('Business data');
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->string('path');
             $table->enum('status', ['constrine', 'free'])->default('free');
             $table->foreignId('group_id')
