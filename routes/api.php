@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //TODO::File mangement
 Route::resource('files', FileController::class);
+Route::options('ddd');

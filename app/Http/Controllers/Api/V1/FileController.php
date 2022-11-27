@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreFileRequest;
+use App\Http\Requests\StorFileRequest;
+use App\Http\Requests\UpdateFileRequest;
 use App\Models\File;
-use Illuminate\Http\Request;
+
 
 class FileController extends Controller
 {
@@ -43,9 +46,9 @@ class FileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFileRequest $request)
     {
-        //
+
     }
 
     /**
@@ -77,7 +80,7 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFileRequest $request, $id)
     {
         //
     }
