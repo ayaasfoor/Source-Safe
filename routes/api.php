@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\FileController;
+use App\Http\Controllers\GroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //TODO::File mangement
 Route::resource('files', FileController::class);
-Route::options('ddd');
+//TODO::Group mangement
+Route::resource('groups', GroupController::class);

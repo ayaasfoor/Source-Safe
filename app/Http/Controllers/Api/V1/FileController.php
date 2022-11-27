@@ -7,7 +7,8 @@ use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\StorFileRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Models\File;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class FileController extends Controller
 {
@@ -27,7 +28,7 @@ class FileController extends Controller
          * Lazy load by pagination
          * increase performance by with
          */
-        return File::query()->with('users,groups')->paginate(11);
+        return File::paginate(11);
     }
 
     /**
@@ -48,7 +49,24 @@ class FileController extends Controller
      */
     public function store(StoreFileRequest $request)
     {
+        //store path file
+        if ($request->has('file')) {
+            $fileRequest = $request->file;
 
+            $path = $fileRequest->store('files-store', 'public');
+            return $path;
+        }
+        DB::transaction(function () use ($request) {
+
+            File::create([
+                'name'          =>     $request->name,
+                'slug'          =>     Str::slug($request->name, '-'),
+                'path'          =>     $request->file,
+                'group_id'      =>     $request->group_id,
+                //'status'        =>     $request->statuss
+            ]);
+        });
+        return response()->json('the file is stored');
     }
 
     /**
