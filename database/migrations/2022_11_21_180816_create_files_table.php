@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->string('path');
+            $table->text('path');
             $table->enum('status', ['constrine', 'free'])->default('free');
             $table->foreignId('group_id')
                 ->nullable();
