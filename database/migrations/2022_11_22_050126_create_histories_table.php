@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('file_id');
-            $table->enum('type-operation', ['reserve', 'upload', 'cancel', 'edit']);
-            $table->enum('type-user', ['self', 'public']);
+            $table->enum('type_operation', ['reserve', 'create', 'cancel', 'edit', 'deleted']);
+            $table->enum('type_user', ['self', 'public']);
             $table->date('date');
             $table->timestamps();
         });

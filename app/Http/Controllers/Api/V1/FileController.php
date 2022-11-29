@@ -43,20 +43,19 @@ class FileController extends Controller
     public function store(StoreFileRequest $request)
     {
         //store path file
-        if ($request->has('file')) {
-            $fileRequest = $request->file;
-
+        if ($request->has('path')) {
+            $fileRequest = $request->path;
             $path = $fileRequest->store('files-store', 'public');
         }
-        DB::transaction(function () use ($request) {
-
-            File::create([
+        DB::transaction(function () use ($request, $path) {
+            $file=File::create([
                 'name'          =>     $request->name,
                 'slug'          =>     Str::slug($request->name, '-'),
-                'path'          =>     $request->file,
+                'path'          =>     $path,
                 'group_id'      =>     $request->group_id,
                 'status'        =>     $request->statuss
             ]);
+            $file->
         });
 
         return response()->json('the file is stored');

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\FileController;
-use App\Http\Controllers\GroupController;
+use App\Http\Controllers\Api\V1\GroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

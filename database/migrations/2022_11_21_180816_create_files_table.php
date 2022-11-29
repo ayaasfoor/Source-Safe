@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->comment('Business data');
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('slug');
             $table->text('path');
             $table->enum('status', ['constrine', 'free'])->default('free');
