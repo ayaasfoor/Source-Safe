@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\StorFileRequest;
 use App\Http\Requests\UpdateFileRequest;
+use App\Http\Resources\FileResource;
 use App\Models\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -28,18 +29,10 @@ class FileController extends Controller
          * Lazy load by pagination
          * increase performance by with
          */
-        return File::paginate(11);
+        return File::/* with('group')-> */paginate(11);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -50,22 +43,21 @@ class FileController extends Controller
     public function store(StoreFileRequest $request)
     {
         //store path file
-        if ($request->has('file')) {
-            $fileRequest = $request->file;
-
+        if ($request->has('path')) {
+            $fileRequest = $request->path;
             $path = $fileRequest->store('files-store', 'public');
-            return $path;
         }
-        DB::transaction(function () use ($request) {
-
-            File::create([
+        DB::transaction(function () use ($request, $path) {
+            $file=File::create([
                 'name'          =>     $request->name,
                 'slug'          =>     Str::slug($request->name, '-'),
-                'path'          =>     $request->file,
+                'path'          =>     $path,
                 'group_id'      =>     $request->group_id,
-                //'status'        =>     $request->statuss
+                'status'        =>     $request->statuss
             ]);
+            $file->
         });
+
         return response()->json('the file is stored');
     }
 
@@ -75,21 +67,11 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(File $file)
     {
-        //
+        return new FileResource($file);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
