@@ -48,7 +48,8 @@ class User extends Authenticatable
      */
     public function files()
     {
-        return $this->belongsToMany(File::class, 'histories', 'user_id')->using(History::class);
+        return $this->belongsToMany(File::class, 'histories')->using(History::class)
+            ->withPivot(['type_user', 'type_operation', 'date']);
     }
 
     /**

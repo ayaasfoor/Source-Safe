@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('slug');
             $table->text('path');
             $table->enum('status', ['constrine', 'free'])->default('free');
-            $table->foreignId('group_id')
-                ->nullable();
+
+
             $table->index('status');
             $table->timestamps();
         });

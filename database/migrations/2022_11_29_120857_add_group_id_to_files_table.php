@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->string('slug');
-            $table->boolean('is-public')->default(false);
-            $table->timestamps();
+        Schema::table('files', function (Blueprint $table) {
+            $table->unsignedBigInteger('group_id')->nullable();
+            $table->foreign('group_id')->references('id')->on('groups')->onUpdate('cascade');
         });
     }
 
@@ -29,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::table('files', function (Blueprint $table) {
+            $table->dropColumn('group_id');
+        });
     }
 };
