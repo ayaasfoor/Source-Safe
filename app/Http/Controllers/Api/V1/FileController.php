@@ -8,6 +8,8 @@ use App\Http\Requests\StorFileRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Http\Resources\FileResource;
 use App\Models\File;
+use App\Models\History;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -29,7 +31,8 @@ class FileController extends Controller
          * Lazy load by pagination
          * increase performance by with
          */
-        return File::/* with('group')-> */paginate(11);
+
+        return File::with('users')->paginate(7);
     }
 
 
@@ -48,15 +51,21 @@ class FileController extends Controller
             $path = $fileRequest->store('files-store', 'public');
         }
         DB::transaction(function () use ($request, $path) {
-            $file=File::create([
+            $file = File::create([
                 'name'          =>     $request->name,
                 'slug'          =>     Str::slug($request->name, '-'),
                 'path'          =>     $path,
-                'group_id'      =>     $request->group_id,
                 'status'        =>     $request->statuss
             ]);
-            $file->
+            History::create([
+                'user_id'       => /* auth()->id() */ 1,
+                'file_id'       =>  $file->id,
+                'type_user'     =>  'self',
+                'type_operation' =>  'create',
+                'date'          =>  Carbon::now()
+            ]);
         });
+
 
         return response()->json('the file is stored');
     }
@@ -69,6 +78,7 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
+        return $file->users;
         return new FileResource($file);
     }
 
@@ -80,9 +90,13 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateFileRequest $request, $id)
+    public function update(UpdateFileRequest $request, File $file)
     {
-        //
+        $file->group_id = $request->group_id;
+        $file->save();
+        return $file;
+
+        /*    dd($file->group->name); */
     }
 
     /**

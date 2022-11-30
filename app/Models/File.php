@@ -16,7 +16,7 @@ class File extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'histories')->using(History::class);
     }
 
     /**
@@ -26,7 +26,7 @@ class File extends Model
 
     public function group()
     {
-        $this->belongsTo(Group::class);
+        return $this->belongsTo(Group::class,);
     }
 
     /**

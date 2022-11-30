@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreGroupRequest;
+use App\Http\Requests\UpdateGroupRequest;
+use App\Models\Group;
+use Illuminate\Support\Str;
 
 class GroupController extends Controller
 {
@@ -14,7 +17,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        return Group::with('files')->get();
     }
 
     /**
@@ -23,9 +26,17 @@ class GroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreGroupRequest $request)
     {
-        //
+        //return $request->all();
+        $group = new Group();
+
+        $group->name  =     $request->name;
+        $group->slug  =   Str::slug($request->name, '-');
+
+        $group->saveOrFail();
+
+        return $group;
     }
 
     /**
@@ -34,9 +45,9 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Group $group)
     {
-        //
+        return $group;
     }
 
     /**
@@ -46,7 +57,7 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGroupRequest $request, $id)
     {
         //
     }
@@ -57,8 +68,8 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Group $group)
     {
-        //
+        $group->delete();
     }
 }

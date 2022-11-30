@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class History extends Pivot
+
+class History extends Model
 {
-    public $incrementing = true;
+    public $table = 'histories';
+    protected $fillable = ['user_id', 'file_id', 'type_user', 'type_opartion', 'date'];
 }
