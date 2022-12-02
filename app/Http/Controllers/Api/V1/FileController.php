@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFileRequest;
-use App\Http\Requests\StorFileRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\History;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class FileController extends Controller
@@ -31,8 +31,9 @@ class FileController extends Controller
          * Lazy load by pagination
          * increase performance by with
          */
-
-        return File::with('users')->paginate(7);
+        $this->authorize('viewAny', File::class);
+        
+        return File::with('group')->paginate(7);
     }
 
 
@@ -50,19 +51,22 @@ class FileController extends Controller
             $fileRequest = $request->path;
             $path = $fileRequest->store('files-store', 'public');
         }
+
         DB::transaction(function () use ($request, $path) {
-            $file = File::create([
-                'name'          =>     $request->name,
-                'slug'          =>     Str::slug($request->name, '-'),
-                'path'          =>     $path,
-                'status'        =>     $request->statuss
-            ]);
+
+            $file = new File();
+            $file->name = $request->name;
+            $file->slug = Str::slug($request->name, '-');
+            $file->path = $path;
+            $file->user_id = 1;
+            $file->saveOrFail();
+
             History::create([
                 'user_id'       => /* auth()->id() */ 1,
                 'file_id'       =>  $file->id,
-                'type_user'     =>  'self',
+                'is_maker'     =>  true,
                 'type_operation' =>  'create',
-                'date'          =>  Carbon::now()
+
             ]);
         });
 
@@ -105,8 +109,12 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(File $file)
     {
-        //
+        //Log::info();
+
+        $this->authorize('delete', $file);
+        $file->delete();
+        return response()->json('file has deleted');
     }
 }

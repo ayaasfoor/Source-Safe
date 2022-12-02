@@ -19,10 +19,9 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug');
             $table->text('path');
-            $table->enum('status', ['constrine', 'free'])->default('free');
-
-
-            $table->index('status');
+            $table->boolean('is_reserve')->default(false);
+            $table->bigInteger('user_id');   // لتقليل عمليات الجوين
+            $table->index('is_reserve');
             $table->timestamps();
         });
     }
