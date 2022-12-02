@@ -23,8 +23,6 @@ class UpdateFileRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'group_id'     =>   'required|exists:groups,id|numeric'
-        ];
+        return [];
     }
 }

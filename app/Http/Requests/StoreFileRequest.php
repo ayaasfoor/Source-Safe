@@ -24,10 +24,9 @@ class StoreFileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'            =>     'required|string|max:255',
+            'name'            =>     'required|string|unique:files|max:255',
             'path'            =>     'required|file|mimes:txt,pdf',
             'group_id'        =>     'numeric|exists:groups,id|nullable',
-            'status'          =>     'string|in:constrine,free'
         ];
     }
 }
