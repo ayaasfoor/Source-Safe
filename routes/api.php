@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\V1\FileController;
-use App\Http\Controllers\GroupController;
 use  App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\GroupController;
+use App\Http\Controllers\OperationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Translation\Catalogue\OperationInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +25,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //TODO::File mangement
 Route::resource('files', FileController::class);
+
 //TODO::Group mangement
 Route::resource('groups', GroupController::class);
+
 Route::post('registeer', [AuthController::class, 'registerr']);
 Route::group([ 'middleware' => 'api'], function ($router) {
 
@@ -35,4 +39,12 @@ Route::group([ 'middleware' => 'api'], function ($router) {
 
 });
 
+
+
+//////////////////////////////Start Section Files///////////////////////////////
+//TODO::Operation management
+Route::controller(OperationController::class)->group(function () {
+    Route::post('add-file/{file}', 'addFileToGroup')->name('groups.addfile');
+});
+//////////////////////////////End Section Files///////////////////////////////
 

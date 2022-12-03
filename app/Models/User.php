@@ -49,7 +49,8 @@ class User extends Authenticatable implements JWTSubject
      */
     public function files()
     {
-        return $this->belongsToMany(File::class);
+        return $this->belongsToMany(File::class, 'histories')->using(History::class)
+            ->withPivot(['type_user', 'type_operation', 'date']);
     }
 
     /**

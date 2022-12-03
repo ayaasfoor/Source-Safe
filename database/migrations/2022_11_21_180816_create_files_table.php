@@ -16,13 +16,12 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->comment('Business data');
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('slug');
             $table->text('path');
-            $table->enum('status', ['constrine', 'free'])->default('free');
-            $table->foreignId('group_id')
-                ->nullable();
-            $table->index('status');
+            $table->boolean('is_reserve')->default(false);
+            $table->bigInteger('user_id');   // لتقليل عمليات الجوين
+            $table->index('is_reserve');
             $table->timestamps();
         });
     }
