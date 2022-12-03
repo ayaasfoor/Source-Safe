@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\FileController;
+use  App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\GroupController;
 use App\Http\Controllers\OperationController;
 use Illuminate\Http\Request;
@@ -28,9 +29,22 @@ Route::resource('files', FileController::class);
 //TODO::Group mangement
 Route::resource('groups', GroupController::class);
 
+Route::post('registeer', [AuthController::class, 'registerr']);
+Route::group([ 'middleware' => 'api'], function ($router) {
+
+    Route::post('login', [AuthController::class, 'login']);
+    //Route::post('logout', 'AuthController@logout');
+    //Route::post('refresh', 'AuthController@refresh');
+    //Route::post('me', 'AuthController@me');
+
+});
+
+
+
 //////////////////////////////Start Section Files///////////////////////////////
 //TODO::Operation management
 Route::controller(OperationController::class)->group(function () {
     Route::post('add-file/{file}', 'addFileToGroup')->name('groups.addfile');
 });
 //////////////////////////////End Section Files///////////////////////////////
+
