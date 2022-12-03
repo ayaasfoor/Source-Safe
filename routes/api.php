@@ -23,21 +23,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
 //TODO::File mangement
 Route::resource('files', FileController::class);
 
 //TODO::Group mangement
 Route::resource('groups', GroupController::class);
 
-Route::post('registeer', [AuthController::class, 'registerr']);
-Route::group([ 'middleware' => 'api'], function ($router) {
 
-    Route::post('login', [AuthController::class, 'login']);
-    //Route::post('logout', 'AuthController@logout');
-    //Route::post('refresh', 'AuthController@refresh');
-    //Route::post('me', 'AuthController@me');
 
-});
 
 
 
@@ -47,4 +45,3 @@ Route::controller(OperationController::class)->group(function () {
     Route::post('add-file/{file}', 'addFileToGroup')->name('groups.addfile');
 });
 //////////////////////////////End Section Files///////////////////////////////
-
