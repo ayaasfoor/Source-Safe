@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug');
             $table->boolean('is-public')->default(false);
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }
