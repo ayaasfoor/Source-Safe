@@ -33,9 +33,10 @@ class GroupController extends Controller
 
         $group->name  =     $request->name;
         $group->slug  =   Str::slug($request->name, '-');
+        $group->user_id = auth()->id();
 
         $group->saveOrFail();
-
+        $group->users()->attach(auth()->id());
         return $group;
     }
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('group_id');
-            $table->enum('type', ['self', 'public']);
+
             $table->timestamps();
         });
     }
