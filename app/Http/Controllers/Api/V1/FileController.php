@@ -15,10 +15,7 @@ use Illuminate\Support\Str;
 
 class FileController extends Controller
 {
-    public function __construct()
-    {
-        //TODO::midllware auth
-    }
+
     /**
      * Display a listing of the resource.
      *
@@ -32,7 +29,7 @@ class FileController extends Controller
          * increase performance by with
          */
         $this->authorize('viewAny', File::class);
-        
+
         return File::with('group')->paginate(7);
     }
 
@@ -58,16 +55,9 @@ class FileController extends Controller
             $file->name = $request->name;
             $file->slug = Str::slug($request->name, '-');
             $file->path = $path;
-            $file->user_id = 1;
+            $file->user_id = auth()->id();
             $file->saveOrFail();
-
-            History::create([
-                'user_id'       => /* auth()->id() */ 1,
-                'file_id'       =>  $file->id,
-                'is_maker'     =>  true,
-                'type_operation' =>  'create',
-
-            ]);
+            $file->users()->attach(auth()->id(), ['type_operation' => 'create']);
         });
 
 

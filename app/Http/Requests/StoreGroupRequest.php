@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+
+use API;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreGroupRequest extends FormRequest
@@ -15,7 +17,6 @@ class StoreGroupRequest extends FormRequest
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +25,7 @@ class StoreGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'            =>     'required|string|max:255',
+            'name'            =>     'required|string|max:255|unique:groups',
         ];
     }
 }

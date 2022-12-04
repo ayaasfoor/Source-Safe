@@ -42,6 +42,6 @@ Route::resource('groups', GroupController::class);
 //////////////////////////////Start Section Files///////////////////////////////
 //TODO::Operation management
 Route::controller(OperationController::class)->group(function () {
-    Route::post('add-file/{file}', 'addFileToGroup')->name('groups.addfile');
+    Route::post('addfile/{file}', 'addFileToGroup')->name('groups.addfile');
 });
 //////////////////////////////End Section Files///////////////////////////////

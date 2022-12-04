@@ -16,7 +16,7 @@ class File extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'histories')->using(History::class);
+        return $this->belongsToMany(User::class, 'histories')->withPivot(['type_operation']);;
     }
 
     /**

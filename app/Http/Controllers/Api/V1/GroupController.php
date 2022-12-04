@@ -28,7 +28,7 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        //return $request->all();
+
         $group = new Group();
 
         $group->name  =     $request->name;

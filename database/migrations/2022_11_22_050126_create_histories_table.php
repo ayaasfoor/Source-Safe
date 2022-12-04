@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('file_id');
             $table->enum('type_operation', ['create', 'reserve', 'edit', 'cancle']);
-            $table->boolean('is_maker')->default(false);
             $table->timestamps();
         });
     }
