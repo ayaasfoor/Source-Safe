@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\CheckStatus;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\Group;
@@ -21,7 +20,7 @@ class OperationController extends Controller
     {
         //TODO::validate request
         $validator = Validator::make($request->all(), [
-            'users'     =>   'required|array|numeric'
+            'group_id'     =>   'required|numeric|exists:groups,id'
         ]);
 
         if ($validator->fails()) {
@@ -32,17 +31,29 @@ class OperationController extends Controller
         //TODO::add file to group
         if ($this->checkUser($file, Group::findOrFail($request->group_id))) {
             $file->group_id = $request->group_id;
+            $file->save();
         }
         return new FileResource($file);
     }
     /**
      *  delete file from group
      */
-    public function deleteFileFromGroup(File $file)
+    public function deleteFileFromGroup(Request $request, File $file)
     {
-        $file->group_id = null;
-        $file->save();
-        return $file;
+        //TODO::validate request
+        $validator = Validator::make($request->all(), [
+            'users'     =>   'required|array|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            $this->formatValidationErrors($validator);
+        }
+        //TODO::remove file from group
+        if ($this->checkUser($file, Group::findOrFail($request->group_id))) {
+            $file->group_id = null;
+            $file->save();
+            return ['message'   =>   'the file is deleted from group successfuly'];
+        }
     }
     /**
      *Add Users TO Group
@@ -50,7 +61,7 @@ class OperationController extends Controller
      */
     public function addUserToGroup(Request $request, Group $group)
     {
-        //TODO::va request
+        //TODO::validate  request
         $validator = Validator::make($request->all(), [
             'users'     =>   'required|array|numeric'
         ]);
