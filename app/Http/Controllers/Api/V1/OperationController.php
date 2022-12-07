@@ -33,7 +33,7 @@ class OperationController extends Controller
             $file->group_id = $request->group_id;
             $file->save();
         }
-        return new FileResource($file);
+        return ['message'   =>   'the file is added to  group successfuly'];
     }
     /**
      *  delete file from group
@@ -42,7 +42,7 @@ class OperationController extends Controller
     {
         //TODO::validate request
         $validator = Validator::make($request->all(), [
-            'users'     =>   'required|array|numeric'
+            'group_id'     =>   'required|numeric|exists:groups,id'
         ]);
 
         if ($validator->fails()) {
@@ -71,7 +71,8 @@ class OperationController extends Controller
         }
 
         $group->users()->sync($request->users);
-        return $group->users;
+        
+        return ['message'    =>    'the users added to group successfuly'];
     }
     /**
      *check if user is creating file and group to add to group or delete it

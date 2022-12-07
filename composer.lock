@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06fb46910beb0cf91caff5c20efa1a8a",
+    "content-hash": "11585ab5f06e777be90ba47bed42b80d",
     "packages": [
         {
             "name": "brick/math",
@@ -1235,6 +1235,53 @@
                 }
             ],
             "time": "2022-10-26T14:07:24+00:00"
+        },
+        {
+            "name": "humans/laravel-singleton-routes",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/humans/laravel-singleton-routes.git",
+                "reference": "711e5f770ebc0e2e4de1321e68c9ca4d4bee0e84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/humans/laravel-singleton-routes/zipball/711e5f770ebc0e2e4de1321e68c9ca4d4bee0e84",
+                "reference": "711e5f770ebc0e2e4de1321e68c9ca4d4bee0e84",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Humans\\SingletonRoutes\\SingletonRoutesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Humans\\SingletonRoutes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jaggy",
+                    "email": "jaggy@humans.ph"
+                }
+            ],
+            "description": "Add singleton routes for Laravel.",
+            "support": {
+                "issues": "https://github.com/humans/laravel-singleton-routes/issues",
+                "source": "https://github.com/humans/laravel-singleton-routes/tree/0.3.0"
+            },
+            "time": "2022-01-27T12:19:15+00:00"
         },
         {
             "name": "laravel/framework",

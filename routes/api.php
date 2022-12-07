@@ -33,7 +33,8 @@ Route::resource('files', FileController::class);
 
 //TODO::Group mangement
 Route::resource('groups', GroupController::class);
-
+//TODO:: add one group public
+Route::singleton('public', PasswordController::class);
 
 
 
